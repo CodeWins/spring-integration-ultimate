@@ -7,4 +7,6 @@
 
 <int:channel id="messageChannel"></int:channel>
 
+<bean class = "iva.springintegration.PrintService" id="printservice"></bean>
+<int:service-activator ref="printservice" method="printChannel" input-channel="inputChannel"></int:service-activator>
 </beans>

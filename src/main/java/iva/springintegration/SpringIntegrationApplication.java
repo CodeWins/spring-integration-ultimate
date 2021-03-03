@@ -25,11 +25,15 @@ public class SpringIntegrationApplication implements ApplicationRunner {
 
 	@Autowired
 	private DirectChannel channel;
+
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringIntegrationApplication.class, args);
 	}
 
+	/**
+	 * Run method
+	 */
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		channel.subscribe(new MessageHandler() {
@@ -40,9 +44,13 @@ public class SpringIntegrationApplication implements ApplicationRunner {
 				
 			}
 		});
+		
+
 		Message<String> message = MessageBuilder.withPayload("Hello Payload from Builder")
 				.setHeader("Header1", "Header Value 1").build();
+
 channel.send(message);
+
 
 	}
 
