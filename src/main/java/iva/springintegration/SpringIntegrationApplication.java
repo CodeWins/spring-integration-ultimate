@@ -13,7 +13,9 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.MessagingException;
 import org.springframework.messaging.support.GenericMessage;
 
 @SpringBootApplication
@@ -30,10 +32,17 @@ public class SpringIntegrationApplication implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
+		channel.subscribe(new MessageHandler() {
+			
+			@Override
+			public void handleMessage(Message<?> message) throws MessagingException {
+				new PrintService().print((Message<String>) message);
+				
+			}
+		});
 		Message<String> message = MessageBuilder.withPayload("Hello Payload from Builder")
 				.setHeader("Header1", "Header Value 1").build();
-		PrintService service = new PrintService();
-		service.print(message);
+channel.send(message);
 
 	}
 
